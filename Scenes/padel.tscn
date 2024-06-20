@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bknpgfe6wxkh4"]
+
+[ext_resource type="Texture2D" uid="uid://cxw68veg2dfbd" path="res://Assets/RedRod.png" id="1_135py"]
+[ext_resource type="Script" path="res://Scripts/padel.gd" id="1_q0h78"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7so4k"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h4vvc"]
+size = Vector2(16, 280)
+
+[node name="Padel" type="StaticBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_7so4k")
+script = ExtResource("1_q0h78")
+speed = 15.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_135py")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_h4vvc")

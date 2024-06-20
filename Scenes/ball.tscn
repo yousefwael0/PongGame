@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dao536ug1jtpo"]
+
+[ext_resource type="Texture2D" uid="uid://dj32symmhk18u" path="res://Assets/YellowBall.png" id="1_smng0"]
+[ext_resource type="Script" path="res://Scripts/ball.gd" id="1_uvo86"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e3oxj"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4gl4d"]
+radius = 16.0312
+
+[node name="Ball" type="RigidBody2D"]
+mass = 0.01
+physics_material_override = SubResource("PhysicsMaterial_e3oxj")
+gravity_scale = 1.66533e-16
+max_contacts_reported = 3
+contact_monitor = true
+linear_damp = 0.13
+angular_damp_mode = 1
+script = ExtResource("1_uvo86")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_smng0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4gl4d")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

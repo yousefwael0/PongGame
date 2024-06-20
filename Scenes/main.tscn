@@ -1,0 +1,105 @@
+[gd_scene load_steps=16 format=3 uid="uid://wkhwpjiaejlq"]
+
+[ext_resource type="Script" path="res://Scripts/game_manager.gd" id="1_wwgf1"]
+[ext_resource type="Texture2D" uid="uid://chx5p7rwr5h4c" path="res://Assets/Black1920x1080.png" id="1_x2lap"]
+[ext_resource type="Texture2D" uid="uid://nv8d2vqpohl5" path="res://Assets/PurpleBorder.png" id="2_8w0x6"]
+[ext_resource type="PackedScene" uid="uid://bknpgfe6wxkh4" path="res://Scenes/padel.tscn" id="4_olr2r"]
+[ext_resource type="PackedScene" uid="uid://caxjeehrna48" path="res://Scenes/score.tscn" id="5_3dvv1"]
+[ext_resource type="PackedScene" uid="uid://dao536ug1jtpo" path="res://Scenes/ball.tscn" id="5_fvh7k"]
+[ext_resource type="PackedScene" uid="uid://0qtwmsvdnmvl" path="res://Scenes/goal.tscn" id="6_dfssl"]
+[ext_resource type="PackedScene" uid="uid://jdriocqqcsxk" path="res://Scenes/pause_menu.tscn" id="7_2nbcb"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ac7qs"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_y3a8g"]
+normal = Vector2(0, 1)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7puix"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_5lc6r"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ldp66"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6qdol"]
+normal = Vector2(1, 0)
+
+[sub_resource type="Environment" id="Environment_m7eln"]
+background_mode = 3
+ambient_light_source = 1
+reflected_light_source = 1
+tonemap_mode = 2
+ssao_radius = 14.9
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 1.0
+glow_bloom = 0.1
+glow_blend_mode = 0
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_wwgf1")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("1_x2lap")
+
+[node name="PurpleBorder" type="Sprite2D" parent="Background"]
+texture = ExtResource("2_8w0x6")
+
+[node name="TopBorder" type="StaticBody2D" parent="Background/PurpleBorder"]
+position = Vector2(2.08165e-12, -452.5)
+physics_material_override = SubResource("PhysicsMaterial_ac7qs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Background/PurpleBorder/TopBorder"]
+shape = SubResource("WorldBoundaryShape2D_y3a8g")
+
+[node name="BottomBorder" type="StaticBody2D" parent="Background/PurpleBorder"]
+position = Vector2(2.08165e-12, 448.5)
+physics_material_override = SubResource("PhysicsMaterial_7puix")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Background/PurpleBorder/BottomBorder"]
+shape = SubResource("WorldBoundaryShape2D_5lc6r")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.97, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
+
+[node name="PauseMenu" parent="Camera2D/CanvasLayer" instance=ExtResource("7_2nbcb")]
+visible = false
+
+[node name="Score" parent="Camera2D/CanvasLayer" instance=ExtResource("5_3dvv1")]
+
+[node name="Padels" type="Node2D" parent="."]
+
+[node name="RightPadel" parent="Padels" node_paths=PackedStringArray("top_border", "bottom_border") instance=ExtResource("4_olr2r")]
+position = Vector2(900, 2.08165e-12)
+controls = 1
+top_border = NodePath("../../Background/PurpleBorder/TopBorder")
+bottom_border = NodePath("../../Background/PurpleBorder/BottomBorder")
+
+[node name="LeftPadel" parent="Padels" node_paths=PackedStringArray("top_border", "bottom_border") instance=ExtResource("4_olr2r")]
+position = Vector2(-900, 2.08165e-12)
+top_border = NodePath("../../Background/PurpleBorder/TopBorder")
+bottom_border = NodePath("../../Background/PurpleBorder/BottomBorder")
+
+[node name="Ball" parent="." node_paths=PackedStringArray("loser_padel") instance=ExtResource("5_fvh7k")]
+loser_padel = NodePath("../Padels/RightPadel")
+
+[node name="RightGoal" parent="." instance=ExtResource("6_dfssl")]
+position = Vector2(989, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightGoal"]
+shape = SubResource("WorldBoundaryShape2D_ldp66")
+
+[node name="LeftGoal" parent="." instance=ExtResource("6_dfssl")]
+position = Vector2(-989, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftGoal"]
+shape = SubResource("WorldBoundaryShape2D_6qdol")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_m7eln")

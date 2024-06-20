@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://caxjeehrna48"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_y0yic"]
+font_size = 70
+font_color = Color(0.829988, 0.000390311, 0.795876, 1)
+outline_size = 15
+outline_color = Color(0.377509, 0.00123437, 0.915919, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vjji0"]
+font_size = 50
+font_color = Color(0.829988, 0.000390311, 0.795876, 1)
+outline_size = 15
+outline_color = Color(0.377509, 0.00123437, 0.915919, 1)
+
+[node name="Score" type="Control"]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+
+[node name="BoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.5
+offset_right = 60.5
+offset_bottom = 96.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="LeftScore" type="Label" parent="BoxContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_y0yic")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="|" type="Label" parent="BoxContainer"]
+layout_mode = 2
+text = "	|		"
+label_settings = SubResource("LabelSettings_vjji0")
+horizontal_alignment = 1
+
+[node name="RightScore" type="Label" parent="BoxContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_y0yic")
+horizontal_alignment = 1
+vertical_alignment = 1
